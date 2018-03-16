@@ -5,7 +5,7 @@ public class Allocator {
 		// TODO Auto-generated method stub
 		ReadData rd=new ReadData();
 		rd.readFile("e05200.txt");
-		for(int i=0;i<rd.num_agents;i++) {
+		/*for(int i=0;i<rd.num_agents;i++) {
 			for(int j=0;j<rd.num_resources;j++) {
 				System.out.print(rd.c[i][j] +" ");
 			}
@@ -21,6 +21,9 @@ public class Allocator {
 		System.out.println("*****");
 		for(int i=0;i<rd.num_agents;i++) {
 			System.out.print(rd.b[i]+ " ");
-		}
+		}*/
+		Heuristics h=new Heuristics(rd);
+		h.constructive_heuristic();
+		
 	}
 }
