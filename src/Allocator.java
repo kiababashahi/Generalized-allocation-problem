@@ -24,6 +24,5 @@ public class Allocator {
 		}*/
 		Heuristics h=new Heuristics(rd);
 		h.constructive_heuristic();
-		
 	}
 }
