@@ -7,7 +7,7 @@ public class Allocator {
 		rd.readFile("e05100.txt");
 		/*for(int i=0;i<rd.num_agents;i++) {
 			for(int j=0;j<rd.num_resources;j++) {
-				System.out.print(rd.c[i][j] +" ");
+				System.out.print(rd.c[i][j] +" ");F
 			}
 			System.out.println();
 		}
