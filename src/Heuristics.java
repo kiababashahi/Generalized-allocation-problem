@@ -58,6 +58,9 @@ public class Heuristics {
 			sum+=allocated_costs.get(i).value;
 		}
 		System.out.println(sum);
+	/*	for(int i=0;i<allocated_costs.size();i++) {
+			System.out.print(allocated_costs.get(i).value + " ");
+		}*/
 	}
 
 	public void find_min(int[][] m) {// finds the minimum of elements in a column of a
@@ -160,6 +163,7 @@ public class Heuristics {
 			System.out.println();
 		}
 	}
+
 	public void Sort_assigned_costs(){
 		assigned_costs as;
 		for(int i=0;i<num_agents;i++) {
@@ -170,7 +174,8 @@ public class Heuristics {
 				}
 			}
 		}
-		mergeSort(allocated_costs, 0, allocated_costs.size());
+
+		mergeSort(allocated_costs, 0, allocated_costs.size()-1);
 	}
 	void merge(ArrayList<assigned_costs> arr, int l, int m, int r)
 	{
@@ -196,12 +201,12 @@ public class Heuristics {
 	    {
 	        if (L.get(i).value <= R.get(j).value)
 	        {
-	            arr.add(k,L.get(i));
+	            arr.set(k,L.get(i));
 	            i++;
 	        }
 	        else
 	        {
-	        	arr.add(k,R.get(j));
+	        	arr.set(k,R.get(j));
 	            j++;
 	        }
 	        k++;
@@ -211,7 +216,7 @@ public class Heuristics {
 	       are any */
 	    while (i < n1)
 	    {
-	        arr.add(k,L.get(i));
+	        arr.set(k,L.get(i));
 	        i++;
 	        k++;
 	    }
@@ -220,7 +225,7 @@ public class Heuristics {
 	       are any */
 	    while (j < n2)
 	    {
-	    	arr.add(k,R.get(j));
+	    	arr.set(k,R.get(j));
 	        j++;
 	        k++;
 	    }
