@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Random;
 
 public class Heuristics {
 	int objective_value = 0;
@@ -14,12 +15,14 @@ public class Heuristics {
 	int[][] smallest;
 	int x[][];
 	int all = 0;
+	int optimum;
 	ArrayList<assigned_costs> allocated_costs=new ArrayList<assigned_costs>();
-	public Heuristics(ReadData r) { // constructor
+	public Heuristics(ReadData r,int optimum) { // constructor
 		num_agents = r.num_agents;
 		num_resources = r.num_resources;
 		b = new int[num_agents];
 		b = r.b;
+		this.optimum=optimum;
 		c = new int[num_agents][num_resources];
 		c = r.c;
 		a = new int[num_agents][num_resources];
@@ -46,21 +49,39 @@ public class Heuristics {
 				x[mm_i][mm_j] = 1;
 				b[mm_i] -= a_copy[mm_i][mm_j];
 				objective_value += c[mm_i][mm_j];
-				System.out.println(
-						"Heuristic value:" + objective_value + " the gap is" + (12681.0 / objective_value) * 100);
+				/*System.out.println(
+						"Heuristic value:" + objective_value + " the gap is" + (12681.0 / objective_value) * 100);*/
 			} else
 				a_copy[mm_i][mm_j] = Integer.MAX_VALUE; // if the answer was infeasible just don`t add it
 		}
 		//check_Feas(); //
 		Sort_assigned_costs();
-		int sum=0;
+	/*	int sum=0;
 		for(int i=0;i<allocated_costs.size();i++) {
 			sum+=allocated_costs.get(i).value;
 		}
-		System.out.println(sum);
+		System.out.println(sum);*/
+		
+		//System.out.println(allocated_costs.size()+" "+ allocated_costs.size()/3);
+		Random rn=new Random();
+		int r1=rn.nextInt(allocated_costs.size()/3);
+		int r2=rn.nextInt(allocated_costs.size()/3)+allocated_costs.size()/3;
+		int r3=rn.nextInt(allocated_costs.size()/3)+allocated_costs.size()*2/3;
+		Local_Search l1=new Local_Search(a, objective_value, r1, x, c, b, allocated_costs,optimum);
+		Local_Search l2=new Local_Search(a, objective_value, r2, x, c, b, allocated_costs,optimum);
+		Local_Search l3=new Local_Search(a, objective_value, r3, x, c, b, allocated_costs,optimum);	
+		int L_Search=l1.search();
+		int M_Search=l2.search();
+		int H_Search=l3.search();
+		//int best=Math.min(L_Search, M_Search,H_Search);
 	/*	for(int i=0;i<allocated_costs.size();i++) {
 			System.out.print(allocated_costs.get(i).value + " ");
 		}*/
+		System.out.println(r1+ " "+ r2+ " "+ r3);
+		System.out.println(optimum);
+		System.out.println(L_Search);
+		System.out.println(M_Search);
+		System.out.println(H_Search);
 	}
 
 	public void find_min(int[][] m) {// finds the minimum of elements in a column of a

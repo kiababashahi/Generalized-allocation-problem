@@ -22,7 +22,7 @@ public class Allocator {
 		for(int i=0;i<rd.num_agents;i++) {
 			System.out.print(rd.b[i]+ " ");
 		}*/
-		Heuristics h=new Heuristics(rd);
+		Heuristics h=new Heuristics(rd,12681);
 		h.constructive_heuristic();
 	}
 }
