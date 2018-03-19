@@ -3,20 +3,20 @@ import java.util.Random;
 
 public class Heuristics {
 	int objective_value = 0;
-	private int num_agents;
-	private int num_resources;
-	private int[] b;
-	private int[][] c;
-	private int[][] a;
-	private int[][] a_copy;
-	private int[] b_original;
-	private int[] allocated;
-	int[] min_cl_val = new int[3];
-	int[][] smallest;
-	int x[][];
-	int all = 0;
-	int optimum;
-	ArrayList<assigned_costs> allocated_costs=new ArrayList<assigned_costs>();
+	public int num_agents;
+	public int num_resources;
+	public int[] b;
+	public int[][] c;
+	public int[][] a;
+	public int[][] a_copy;
+	public int[] b_original;
+	public int[] allocated;
+	public int[] min_cl_val = new int[3];
+	public int[][] smallest;
+	public int x[][];
+	public int all = 0;
+	public int optimum;
+	public ArrayList<assigned_costs> allocated_costs=new ArrayList<assigned_costs>();
 	public Heuristics(ReadData r,int optimum) { // constructor
 		num_agents = r.num_agents;
 		num_resources = r.num_resources;
@@ -64,24 +64,24 @@ public class Heuristics {
 		
 		//System.out.println(allocated_costs.size()+" "+ allocated_costs.size()/3);
 		Random rn=new Random();
-		int r1=rn.nextInt(allocated_costs.size()/3);
-		int r2=rn.nextInt(allocated_costs.size()/3)+allocated_costs.size()/3;
-		int r3=rn.nextInt(allocated_costs.size()/3)+allocated_costs.size()*2/3;
-		Local_Search l1=new Local_Search(a, objective_value, r1, x, c, b, allocated_costs,optimum);
-		Local_Search l2=new Local_Search(a, objective_value, r2, x, c, b, allocated_costs,optimum);
-		Local_Search l3=new Local_Search(a, objective_value, r3, x, c, b, allocated_costs,optimum);	
-		int L_Search=l1.search();
-		int M_Search=l2.search();
-		int H_Search=l3.search();
+	//	int r1=rn.nextInt(allocated_costs.size()/3);
+	//	int r2=rn.nextInt(allocated_costs.size()/3)+allocated_costs.size()/3;
+	//	int r3=rn.nextInt(allocated_costs.size()/3)+allocated_costs.size()*2/3;
+		///////////////Local_Search l1=new Local_Search(a, objective_value, r1, x, c, b, allocated_costs,optimum);
+		//Local_Search l2=new Local_Search(a, objective_value, r2, x, c, b, allocated_costs,optimum);
+		//Local_Search l3=new Local_Search(a, objective_value, r3, x, c, b, allocated_costs,optimum);	
+		/////////////l1.search();
+		//int M_Search=l2.search();
+		//int H_Search=l3.search();
 		//int best=Math.min(L_Search, M_Search,H_Search);
 	/*	for(int i=0;i<allocated_costs.size();i++) {
 			System.out.print(allocated_costs.get(i).value + " ");
 		}*/
-		System.out.println(r1+ " "+ r2+ " "+ r3);
-		System.out.println(optimum);
-		System.out.println(L_Search);
-		System.out.println(M_Search);
-		System.out.println(H_Search);
+		//System.out.println(r1+ " "+ r2+ " "+ r3);
+	//	System.out.println(optimum);
+		//System.out.println(L_Search);
+		//System.out.println(M_Search);
+		//System.out.println(H_Search);
 	}
 
 	public void find_min(int[][] m) {// finds the minimum of elements in a column of a

@@ -2,18 +2,18 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class Local_Search {
-	int[][]assignments;
-	int[][]c;
-	int[][]a;
-	int[]b;
-	int candiate;
-	int objective;
-	int num_resources;
-	int num_agents;
-	ArrayList<assigned_costs>costs_Assigned;
-	int optimal;
-	assigned_costs new_cost1;
-	assigned_costs new_cost2;
+	public int[][]assignments;
+	public int[][]c;
+	public int[][]a;
+	public int[]b;
+	public int candiate;
+	public int objective;
+	public int num_resources;
+	public int num_agents;
+	public ArrayList<assigned_costs>costs_Assigned;
+	public int optimal;
+	public assigned_costs new_cost1;
+	public assigned_costs new_cost2;
 public Local_Search(int[][] a,int objective,int candidate,int[][]x,int[][]c,int[]b,ArrayList<assigned_costs>costs_Assigned,int opt) {
 	assignments=x;
 	this.a=a;
@@ -26,11 +26,11 @@ public Local_Search(int[][] a,int objective,int candidate,int[][]x,int[][]c,int[
 	this.objective=objective;
 	optimal=opt;
 	}
-public int search() {
+public void search() {
 	Random ran=new Random();
 	int k=0;
 	int flag=0;
-	while(optimal-objective>0.000001|| k<(1000)) {
+	while(optimal-objective>0.000001|| k<(100)) {
 	if (flag!=0) {
 		candiate=ran.nextInt(costs_Assigned.size());
 	}
@@ -46,12 +46,13 @@ public int search() {
 		}
 	}
 	check_Feas();
-	//System.out.println(objective);
 	flag++;
 	k++;
 }
-	//System.out.println((1.0*(optimal)/objective)*100);
-	return objective;
+	mergeSort(costs_Assigned, 0, costs_Assigned.size()-1);
+	//for(int i=0;i<costs_Assigned.size();i++) System.out.println(costs_Assigned.get(i).value);
+	
+	System.out.println("the obj without met is: " + objective +"and the opt is "+ optimal );
 	}
 
 
@@ -124,16 +125,78 @@ public void check_Feas() {// this function checks feasibility
 		System.out.println();
 	}*/
 }
-public void Sort_assigned_costs(){
-	costs_Assigned=new ArrayList<assigned_costs>();
-	assigned_costs as;
-	for(int i=0;i<num_agents;i++) {
-		for(int j=0;j<num_resources;j++) {
-			if(assignments[i][j]==1) {
-				as=new assigned_costs(c[i][j], i, j);
-				 costs_Assigned.add(as);
-			}
-		}
-	}
+
+
+void merge(ArrayList<assigned_costs> arr, int l, int m, int r)
+{
+    int i, j, k;
+    int n1 = m - l + 1;
+    int n2 =  r - m;
+ 
+    /* create temp arrays */
+    ArrayList<assigned_costs> L=new ArrayList<assigned_costs>();
+    ArrayList<assigned_costs>R=new ArrayList<assigned_costs>();
+ 
+    /* Copy data to temp arrays L[] and R[] */
+    for (i = 0; i < n1; i++)
+        L.add(i, arr.get(l+i));
+    for (j = 0; j < n2; j++)
+        R.add(j,arr.get(m + 1+ j));
+ 
+    /* Merge the temp arrays back into arr[l..r]*/
+    i = 0; // Initial index of first subarray
+    j = 0; // Initial index of second subarray
+    k = l; // Initial index of merged subarray
+    while (i < n1 && j < n2)
+    {
+        if (L.get(i).value <= R.get(j).value)
+        {
+            arr.set(k,L.get(i));
+            i++;
+        }
+        else
+        {
+        	arr.set(k,R.get(j));
+            j++;
+        }
+        k++;
+    }
+ 
+    /* Copy the remaining elements of L[], if there
+       are any */
+    while (i < n1)
+    {
+        arr.set(k,L.get(i));
+        i++;
+        k++;
+    }
+ 
+    /* Copy the remaining elements of R[], if there
+       are any */
+    while (j < n2)
+    {
+    	arr.set(k,R.get(j));
+        j++;
+        k++;
+    }
 }
+ 
+/* l is for left index and r is right index of the
+   sub-array of arr to be sorted */
+void mergeSort(ArrayList<assigned_costs> arr, int l, int r)
+{
+    if (l < r)
+    {
+        // Same as (l+r)/2, but avoids overflow for
+        // large l and h
+        int m = l+(r-l)/2;
+ 
+        // Sort first and second halves
+        mergeSort(arr, l, m);
+        mergeSort(arr, m+1, r);
+ 
+        merge(arr, l, m, r);
+    }
+}
+
 }
