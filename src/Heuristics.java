@@ -58,7 +58,7 @@ public class Heuristics {
 		Sort_assigned_costs();
 	/*	int sum=0;
 		for(int i=0;i<allocated_costs.size();i++) {
-			sum+=allocated_costs.get(i).value;
+			sum+=allocated_costs.get(i).vaFlue;
 		}
 		System.out.println(sum);*/
 		

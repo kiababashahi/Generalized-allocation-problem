@@ -8,7 +8,6 @@ public class Local_Search {
 	public int[][]c;
 	public int[][]a;
 	public int[]b;
-	public int candiate;
 	public int objective;
 	public int num_resources;
 	public int num_agents;
@@ -16,7 +15,7 @@ public class Local_Search {
 	public int optimal;
 	public assigned_costs new_cost1;
 	public assigned_costs new_cost2;
-public Local_Search(int[][] a,int objective,int candidate,int[][]x,int[][]c,int[]b,ArrayList<assigned_costs>costs_Assigned,int opt) {
+public Local_Search(int[][] a,int objective,int[][]x,int[][]c,int[]b,ArrayList<assigned_costs>costs_Assigned,int opt) {
 	assignments=x;
 	this.a=a;
 	num_agents=a.length;
@@ -24,35 +23,19 @@ public Local_Search(int[][] a,int objective,int candidate,int[][]x,int[][]c,int[
 	this.c=c;
 	this.b=b;
 	this.costs_Assigned=costs_Assigned;
-	this.candiate=candidate;
 	this.objective=objective;
 	optimal=opt;
 	}
 public void search() {
-	Random ran=new Random();//256
-	int k=0;
-	int flag=0;
-	while( k<(1000)) {
-	if (flag!=0) {
-		candiate=ran.nextInt(costs_Assigned.size());
-	}
-	int x=ran.nextInt(costs_Assigned.size());
-	if(x!=candiate) {
-		swap(x);
-	}
-	else {
-		while(x!=candiate) {
-			x=ran.nextInt(costs_Assigned.size());
-			if(x!=candiate)
-				swap(x);
+	for(int i=0;i<costs_Assigned.size();i++) {
+		for(int j=i+1;j<costs_Assigned.size();j++) {
+			swap(i,j);
 		}
 	}
 	check_Feas();
-	flag++;
-	k++;
-}
+
 	mergeSort(costs_Assigned, 0, costs_Assigned.size()-1);
-	//for(int i=0;i<costs_Assigned.size();i++) System.out.println(costs_Assigned.get(i).value);
+	for(int i=0;i<costs_Assigned.size();i++) System.out.println(costs_Assigned.get(i).value);
 	
 	System.out.println("the obj without met is: " + objective +"and the opt is "+ optimal+ " "+ (find_objective_value()-optimal)*100/(find_objective_value()*1.0) );
 	//System.out.println(objective);
@@ -67,7 +50,7 @@ public int find_objective_value() {
 	return  sum;
 }
 
-public void swap(int x) {
+public void swap(int x,int candiate) {
 	int temp_obj;
 	int temp_x=b[i(x)]+a[i(x)][j(x)];
 	int temp_cand=b[i(candiate)]+a[i(candiate)][j(candiate)];
@@ -124,7 +107,7 @@ public void check_Feas() {// this function checks feasibility
 			 */
 		}
 		if ( flag > 1 || zer0_flag == num_agents) {
-			System.err.println("infeasibleh");
+			System.err.println("infeasiblehlocal");
 		}
 		flag = 0;
 		zer0_flag = 0;
