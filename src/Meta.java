@@ -63,7 +63,7 @@ public class Meta {
 			Random r=new Random();
 			int can=r.nextInt(new_costs.size()/3);
 			check_Feas();
-			Local_Search ls=new Local_Search(a, objective, can, x, c, b, new_costs, optimal);
+			Local_Search ls=new Local_Search(a, objective, x, c, b, new_costs, optimal);
 			ls.search();
 			if(ls.objective<=objective) {
 				//System.out.println("here");
