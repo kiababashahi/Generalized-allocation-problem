@@ -63,7 +63,7 @@ public class Heuristics {
 		System.out.println(sum);*/
 		
 		//System.out.println(allocated_costs.size()+" "+ allocated_costs.size()/3);
-		Random rn=new Random();
+		//Random rn=new Random();
 	//	int r1=rn.nextInt(allocated_costs.size()/3);
 	//	int r2=rn.nextInt(allocated_costs.size()/3)+allocated_costs.size()/3;
 	//	int r3=rn.nextInt(allocated_costs.size()/3)+allocated_costs.size()*2/3;

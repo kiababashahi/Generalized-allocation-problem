@@ -1,6 +1,8 @@
 import java.util.ArrayList;
 import java.util.Random;
 
+import javax.print.attribute.Size2DSyntax;
+
 public class Local_Search {
 	public int[][]assignments;
 	public int[][]c;
@@ -27,10 +29,10 @@ public Local_Search(int[][] a,int objective,int candidate,int[][]x,int[][]c,int[
 	optimal=opt;
 	}
 public void search() {
-	Random ran=new Random();
+	Random ran=new Random();//256
 	int k=0;
 	int flag=0;
-	while(optimal-objective>0.000001|| k<(100)) {
+	while( k<(1000)) {
 	if (flag!=0) {
 		candiate=ran.nextInt(costs_Assigned.size());
 	}
@@ -52,15 +54,25 @@ public void search() {
 	mergeSort(costs_Assigned, 0, costs_Assigned.size()-1);
 	//for(int i=0;i<costs_Assigned.size();i++) System.out.println(costs_Assigned.get(i).value);
 	
-	System.out.println("the obj without met is: " + objective +"and the opt is "+ optimal );
+	System.out.println("the obj without met is: " + objective +"and the opt is "+ optimal+ " "+ (find_objective_value()-optimal)*100/(find_objective_value()*1.0) );
+	//System.out.println(objective);
+	//System.out.println(find_objective_value());
 	}
 
+public int find_objective_value() {
+	int sum=0;
+	for(int i=0;i<costs_Assigned.size();i++) {
+		sum+=costs_Assigned.get(i).value;
+	}
+	return  sum;
+}
 
 public void swap(int x) {
+	int temp_obj;
 	int temp_x=b[i(x)]+a[i(x)][j(x)];
 	int temp_cand=b[i(candiate)]+a[i(candiate)][j(candiate)];
 	if((temp_x-a[i(x)][j(candiate)]>=0) && (temp_cand-a[i(candiate)][j(x)]>=0)) {
-		int temp_obj=objective-c[i(x)][j(x)]-c[i(candiate)][j(candiate)];
+		temp_obj=objective-c[i(x)][j(x)]-c[i(candiate)][j(candiate)];
 		if((temp_obj+c[i(x)][j(candiate)]+c[i(candiate)][j(x)])<objective) {
 			objective=temp_obj+c[i(x)][j(candiate)]+c[i(candiate)][j(x)];
 			//if(assignments[i(x)][j(x)]==1) System.err.println("PIZZZZZZAAAAAAAAAAAAAAAa");
@@ -71,18 +83,22 @@ public void swap(int x) {
 			assignments[i(candiate)][j(x)]=1;
 			b[i(x)]=temp_x-a[i(x)][j(candiate)];
 			b[i(candiate)]=temp_cand-a[i(candiate)][j(x)];
+			
+			
 			int p1=c[i(x)][j(candiate)];
 			int p2=i(x);
 			int p3=j(candiate);
+			
+			
 			new_cost1=new assigned_costs(p1,p2,p3);
 			int q1=c[i(candiate)][j(x)];
 			int q2=i(candiate);
 			int q3=j(x);
 			new_cost2=new assigned_costs(q1,q2,q3);
+			
 			costs_Assigned.set(x,new_cost1);
 			costs_Assigned.set(candiate,new_cost2);
-			
-		}
+					}
 	}
 }
 public int i(int x) {

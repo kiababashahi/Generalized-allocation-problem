@@ -23,10 +23,11 @@ public Meta(int[][] x,int a[][],int[][]c,int[]b,ArrayList<assigned_costs> assign
 }
 public void new_assignment() {
 	int temp_b=0;
-	int temp_obj=objective;
+	Local_Search ls;
+	int temp_obj=objective-c[i_(candidate)][j_(candidate)];//change temp_obj
 	assigned_costs as;
 	for(int i=0;i<c.length;i++) {
-		if(temp_obj-(c[i_(candidate)][j_(candidate)]+c[i][j_(candidate)])>=0) {//if the value is better
+		if(objective-(temp_obj+c[i][j_(candidate)])>=0) {//if the value is better
 			temp_b=b[i_(candidate)]+a[i_(candidate)][j_(candidate)];
 			if(b[i]-a[i][j_(candidate)]>=0) {////wrong it should b with b
 				x[i_(candidate)][j_(candidate)]=0;
@@ -38,19 +39,21 @@ public void new_assignment() {
 				as=new assigned_costs(c[i][j_(candidate)], i, j_(candidate));
 				assignments.set(candidate, as);
 				temp_obj=objective;		
+				//check_Feas();
 				}
 		//}
 	}
-	check_Feas();
 	Random rn=new Random();
 	mergeSort(assignments, 0, assignments.size()-1);
 	System.out.println("meta obj is"+ objective);
-	Local_Search ls=new Local_Search(a, objective, rn.nextInt(assignments.size()/3), x, c, b, assignments, optimal);
+	ls=new Local_Search(a, objective, rn.nextInt(assignments.size()/3), x, c, b, assignments, optimal);
 	ls.search();
 	assignments=ls.costs_Assigned;
+	check_Feas();
 	objective=ls.objective;
-	//System.out.println("objective improvement is" + objective);
-}}
+	System.out.println("objective improvement is" + objective);
+}   check_Feas();
+	}
 public int j_(int n) {
 	return assignments.get(n).j_val;
 }
@@ -87,12 +90,17 @@ public void check_Feas() {// this function checks feasibility
 			System.err.println("infeasible");
 		}
 	}
-/*	for (int i = 0; i < num_agents; i++) {
-		for (int j = 0; j < num_resources; j++) {
-			System.out.print(assignments[i][j]);
+/*	for (int i = 0; i < x.length; i++) {
+		for (int j = 0; j <x[0].length; j++) {
+			System.out.print(x[i][j]);
 		}
 		System.out.println();
 	}*/
+	int sum=0;
+	for(int i=0;i<assignments.size();i++) {
+		sum+=value(i);
+	}
+	System.out.println("the meta objective is: "+ " " + sum);
 }
 
 
