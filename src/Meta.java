@@ -1,5 +1,10 @@
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Random;
+import java.util.Set;
 
 public class Meta {
 	int[][] x;
@@ -9,11 +14,12 @@ public class Meta {
 	int candidate;
 	int objective;
 	int optimal;
-	int[][] saved_x;;
+	int[]temp_b;
+	int[][] temp_x;;
 	assigned_costs as1;
 	ArrayList<assigned_costs> cloned;
 	ArrayList<assigned_costs> assignments;
-	int[] saved_b;
+	int[] ints;
 	public Meta(int[][] x, int a[][], int[][] c, int[] b, ArrayList<assigned_costs> assignments, int objective,
 			int optimal) {
 		this.x = x;
@@ -23,15 +29,29 @@ public class Meta {
 		this.assignments = assignments;
 		this.objective = objective;
 		this.optimal = optimal;
-		saved_b=new int[b.length];
-		saved_x=new int[x.length][x[0].length];
+		temp_b=new int[b.length];
+		temp_x=new int[x.length][x[0].length];
 	}
-
+	public void random_generator() {
+		 Random random = new Random();
+	     Set<Integer> intSet = new HashSet<>();
+	    while (intSet.size() < assignments.size()/10) {
+	        intSet.add(random.nextInt(assignments.size()));
+	    }
+	    ints = new int[intSet.size()];
+	    Iterator<Integer> iter = intSet.iterator();
+	    for (int i = 0; iter.hasNext(); ++i) {
+	        ints[i] = iter.next();
+	    }
+	}
 	public assigned_costs set_candidate() {
 		Random rn=new Random();
 		assigned_costs temp;
-		int i=rn.nextInt(x.length);
-		int j=rn.nextInt(x[0].length);
+		//int i=rn.nextInt(x.length);
+		//int j=rn.nextInt(x[0].length);
+		for(int k=0;k<ints.length;k++) {
+			change(i)
+		}
 		while(x[i][j]!=0) {
 			i=rn.nextInt(x.length);
 			j=rn.nextInt(x[0].length);
@@ -39,7 +59,21 @@ public class Meta {
 		temp=new assigned_costs(c[i][j], i, j);
 		return temp;
 	}
-
+	public void change(int k) {//initialize temp_x
+		int j=assignments.get(k).j_val;
+		for(int i=0;i<x.length;i++) {
+			if(temp_x[i][j]==0) {
+				if(check_Feas(i,assignments.get(k).i_val),j) {
+					temp_x[i][j]=1;
+					temp_x[assignments.get(k).i_val][j]=0;
+					changeb()
+				}
+			}
+		}
+	}
+	public boolean check_Feas(int n,int m,int j) {
+		int temp_b=b[n]+
+	}
 	public void new_assignment() {
 		assigned_costs swapper=set_candidate();
 		int new_i=swapper.i_val;

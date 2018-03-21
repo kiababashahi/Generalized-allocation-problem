@@ -1,5 +1,9 @@
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Random;
+import java.util.Set;
 
 import javax.print.attribute.Size2DSyntax;
 
@@ -76,6 +80,24 @@ public class Local_Search {
 		}
 		System.out.println("the obj without met is: " + objective + "and the opt is " + optimal + " "
 				+ (find_objective_value() - optimal) * 100 / (find_objective_value() * 1.0));
+		
+		
+		
+		
+		 final Random random = new Random();
+		    final Set<Integer> intSet = new HashSet<>();
+		    while (intSet.size() < costs_Assigned.size()/10) {
+		        intSet.add(random.nextInt(costs_Assigned.size()));
+		    }
+		    final int[] ints = new int[intSet.size()];
+		    final Iterator<Integer> iter = intSet.iterator();
+		    for (int i = 0; iter.hasNext(); ++i) {
+		        ints[i] = iter.next();
+		    }
+		    System.out.println(Arrays.toString(ints));
+		
+		
+		
 	}
 
 	public boolean check_swap_feas(int x, int candiate) {
