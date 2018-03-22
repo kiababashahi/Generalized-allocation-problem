@@ -37,7 +37,7 @@ public class Meta {
 	public void random_generator() {
 		 Random random = new Random();
 	     Set<Integer> intSet = new HashSet<>();
-	    while (intSet.size() < assignments.size()/4) {
+	    while (intSet.size() < assignments.size()/3) {
 	        intSet.add(random.nextInt(assignments.size()));
 	    }
 	    ints = new int[intSet.size()];

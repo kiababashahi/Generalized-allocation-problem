@@ -8,7 +8,9 @@ public class Allocator {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		ReadData rd = new ReadData();
-		rd.readFile("e10400.txt");
+		rd.readFile("e05100.txt");
+		Nap_Const h1=new Nap_Const(rd,12681);
+		h1.assign();
 		/*
 		 * for(int i=0;i<rd.num_agents;i++) { for(int j=0;j<rd.num_resources;j++) {
 		 * System.out.print(rd.c[i][j] +" ");F } System.out.println(); }
@@ -17,8 +19,8 @@ public class Allocator {
 		 * System.out.println(); } System.out.println("*****"); for(int
 		 * i=0;i<rd.num_agents;i++) { System.out.print(rd.b[i]+ " "); }
 		 */
-		Heuristics h1 = new Heuristics(rd, 45746);
-		h1.constructive_heuristic();
+	/*	Heuristics h1 = new Heuristics(rd, 22379);
+		h1.constructive_heuristic();*/
 		//Random rn = new Random();// 123
 		//int r1 = rn.nextInt(h.allocated_costs.size() / 3);
 		// for(int i=0;i<h.allocated_costs.size();i++)

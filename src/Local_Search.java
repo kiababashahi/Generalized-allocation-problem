@@ -1,3 +1,4 @@
+import java.awt.event.TextEvent;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -6,6 +7,7 @@ import java.util.Random;
 import java.util.Set;
 
 import javax.print.attribute.Size2DSyntax;
+import javax.security.auth.x500.X500Principal;
 
 public class Local_Search {
 	public int[][] assignments;
@@ -43,6 +45,42 @@ public class Local_Search {
 		int best_i = 0;
 		int best_j = 0;// error khiz
 		int temp_obj = 0;
+		int shift_temp_obj=0;
+		
+		while(flag==true) {
+			int shift_delta=0;
+			int best_shift_i=0;
+			int best_shift_j=0;
+			int best_shift_oldi=0;
+			int best_index=0;
+			flag=false;
+			for(int i=0;i<costs_Assigned.size();i++) {
+				for(int k=0;k<assignments.length;k++) {
+					if(check_shift_feas(k,costs_Assigned.get(i).j_val) && (costs_Assigned.get(i).i_val!=k)) {
+						shift_temp_obj=objective-c[i(i)][j(i)];
+						if(shift_temp_obj+c[k][j(i)]<objective) {
+							if(objective-(shift_temp_obj+c[k][j(i)])<delta){
+							best_shift_oldi=i(i);
+							best_shift_i=k;
+							best_shift_j=j(i);
+							delta=objective-(shift_temp_obj+c[k][j(i)]);
+							best_index=i;
+						}
+							}
+					}
+				}
+			}
+			int temp_obj2=objective;
+			shift(best_shift_oldi,best_shift_i,best_shift_j,best_index);
+			check_Feas();
+			if(temp_obj2-objective>0) flag=true;
+		}
+		
+		
+		
+		
+		///swap
+		flag=true;
 		while (flag == true) {
 			delta=0;
 			best_i=0;
@@ -77,6 +115,30 @@ public class Local_Search {
 		
 		
 	}
+	public boolean check_shift_feas(int new_I,int j) {
+		if(b[new_I]-a[new_I][j]>0) {
+			return true;
+		}
+		else
+			return false;
+	}
+	
+	
+	public void shift(int oldi,int newi,int j,int index) {
+		if(b[newi]-a[newi][j]>0) {
+		int temp_objs=objective-(c[oldi][j])+c[newi][j];
+		if(objective-temp_objs>0) {
+		b[newi]=b[newi]+a[newi][j];
+		b[oldi]=b[oldi]-a[oldi][j];
+		assignments[newi][j]=1;
+		assignments[oldi][j]=0;
+		int p1 = c[i(newi)][j];
+		int p2 = newi;
+		int p3 = j;
+		new_cost1 = new assigned_costs(p1, p2, p3);
+		costs_Assigned.set(index, new_cost1);
+		objective=temp_objs;
+		}}}
 
 	public boolean check_swap_feas(int x, int candiate) {
 		int temp_obj;
