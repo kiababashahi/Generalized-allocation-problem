@@ -65,8 +65,11 @@ public class Meta {
 	public void change(int k) {//initialize temp_x
 		assigned_costs cs;
 		int j=assignments.get(k).j_val;
-		for(int i=0;i<x.length;i++) {
+		Random rn=new Random();
+		int i=rn.nextInt(x.length);
+		//boolean flag=false;
 			//System.out.println(b[i]+ " "+ a[i][j]+ " "+ a[assignments.get(k).i_val][j]);
+		while(true) {
 			if(x[i][j]==0) {
 				if(check_Feas(i,assignments.get(k).i_val,j)){
 					x[i][j]=1;
@@ -75,7 +78,9 @@ public class Meta {
 					assignments.set(k,cs);
 					break;
 					}
+				else i=rn.nextInt(x.length);
 			}
+			else i=rn.nextInt(x.length);
 		}
 	}
 	public boolean check_Feas(int newe ,int old,int j) {

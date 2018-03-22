@@ -8,7 +8,7 @@ public class Allocator {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		ReadData rd = new ReadData();
-		rd.readFile("e05100.txt");
+		rd.readFile("e10400.txt");
 		/*
 		 * for(int i=0;i<rd.num_agents;i++) { for(int j=0;j<rd.num_resources;j++) {
 		 * System.out.print(rd.c[i][j] +" ");F } System.out.println(); }
@@ -17,7 +17,7 @@ public class Allocator {
 		 * System.out.println(); } System.out.println("*****"); for(int
 		 * i=0;i<rd.num_agents;i++) { System.out.print(rd.b[i]+ " "); }
 		 */
-		Heuristics h1 = new Heuristics(rd, 12681);
+		Heuristics h1 = new Heuristics(rd, 45746);
 		h1.constructive_heuristic();
 		//Random rn = new Random();// 123
 		//int r1 = rn.nextInt(h.allocated_costs.size() / 3);
@@ -36,7 +36,7 @@ public class Allocator {
 		int k=0;
 		int[][]best_x=new int[x.length][x[0].length];
 		int[] best_b=new int[b.length];
-		while(k<10000 && best-h1.optimum>= 10) {
+		while(k<1000 && best-h1.optimum>= 10) {
 		Meta m1=new Meta(x, h1.a, h1.c, b, h1.allocated_costs, h1.objective_value, h1.optimum);
 		m1.set_candidate();
 		/*Meta m2=new Meta(x, h1.a, h1.c, b, h1.allocated_costs, h1.objective_value, h1.optimum);
