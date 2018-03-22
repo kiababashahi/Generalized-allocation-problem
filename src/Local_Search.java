@@ -22,13 +22,16 @@ public class Local_Search {
 
 	public Local_Search(int[][] a, int objective, int[][] x, int[][] c, int[] b,
 			ArrayList<assigned_costs> costs_Assigned, int opt) {
-		assignments = x;
+		assignments=new int[x.length][x[0].length];
+		copy(assignments,x);
 		this.a = a;
 		num_agents = a.length;
 		num_resources = a[0].length;
 		this.c = c;
-		this.b = b;
-		this.costs_Assigned = costs_Assigned;
+		this.b=new int[b.length];
+		copy(this.b, b);
+		this.costs_Assigned =new ArrayList<assigned_costs>();
+		copy(this.costs_Assigned, costs_Assigned);
 		this.objective = objective;
 		optimal = opt;
 	}
@@ -61,41 +64,16 @@ public class Local_Search {
 					}
 				}
 			}
-			//if (flag == true) {
-			//System.out.println(best_i+ " "+ best_j);
+	
 				int temp_obj1=objective;
 				swap(best_i, best_j);
-				//best_i = 0;
-				// best_j = 0;
+			
 				check_Feas();
 				if(temp_obj1-objective>0) flag=true;
-			//}
-			// mergeSort(costs_Assigned, 0, costs_Assigned.size() - 1);
-			// for(int i=0;i<costs_Assigned.size();i++)
-			// System.out.println(costs_Assigned.get(i).value);
-
-			
-			// System.out.println(objective);
-			// System.out.println(find_objective_value());
+		
 		}
 		System.out.println("the obj without met is: " + objective + "and the opt is " + optimal + " "
 				+ (find_objective_value() - optimal) * 100 / (find_objective_value() * 1.0));
-		
-		
-		
-		
-		 final Random random = new Random();
-		    final Set<Integer> intSet = new HashSet<>();
-		    while (intSet.size() < costs_Assigned.size()/10) {
-		        intSet.add(random.nextInt(costs_Assigned.size()));
-		    }
-		    final int[] ints = new int[intSet.size()];
-		    final Iterator<Integer> iter = intSet.iterator();
-		    for (int i = 0; iter.hasNext(); ++i) {
-		        ints[i] = iter.next();
-		    }
-		    System.out.println(Arrays.toString(ints));
-		
 		
 		
 	}
@@ -261,5 +239,27 @@ public class Local_Search {
 			merge(arr, l, m, r);
 		}
 	}
-
+	public void copy (int[][]x,int y[][]) {
+		int temp=0;
+		for(int i=0;i<x.length;i++) {
+			for(int j=0;j<x[0].length;j++) {
+				temp=y[i][j];
+				x[i][j]=temp;
+			}
+		}
+	}
+	public void copy(int[] x,int[]y) {
+		int temp;
+		for(int i=0;i<x.length;i++) {
+			temp=y[i];
+			x[i]=temp;
+	}}
+	public void copy(ArrayList<assigned_costs>a, ArrayList<assigned_costs>b) {
+		assigned_costs temp1;
+		//if(a.size()!=b.size()) System.err.println("dangeeerrrrrrrrrrrrrrrrrr");
+		for(int i=0;i<b.size();i++) {
+			temp1=new assigned_costs(b.get(i).value, b.get(i).i_val,b.get(i).j_val);
+			a.add(i,temp1);
+		}
+	}
 }

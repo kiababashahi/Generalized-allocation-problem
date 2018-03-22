@@ -17,25 +17,27 @@ public class Meta {
 	int[]temp_b;
 	int[][] temp_x;;
 	assigned_costs as1;
-	ArrayList<assigned_costs> cloned;
-	ArrayList<assigned_costs> assignments;
+	ArrayList<assigned_costs> new_ass;
+	ArrayList<assigned_costs> assignments=new ArrayList<assigned_costs>();
 	int[] ints;
-	public Meta(int[][] x, int a[][], int[][] c, int[] b, ArrayList<assigned_costs> assignments, int objective,
+	public Meta(int[][] hx, int a[][], int[][] c, int[] hb, ArrayList<assigned_costs> assignments, int objective,
 			int optimal) {
-		this.x = x;
+		x = new int[hx.length][hx[0].length];
 		this.c = c;
-		this.b = b;
+		b = new int[hb.length];
 		this.a = a;
-		this.assignments = assignments;
+		copy(this.assignments,assignments);
 		this.objective = objective;
 		this.optimal = optimal;
 		temp_b=new int[b.length];
 		temp_x=new int[x.length][x[0].length];
+		copy(b, hb);
+		copy(x, hx);
 	}
 	public void random_generator() {
 		 Random random = new Random();
 	     Set<Integer> intSet = new HashSet<>();
-	    while (intSet.size() < assignments.size()/10) {
+	    while (intSet.size() < assignments.size()/4) {
 	        intSet.add(random.nextInt(assignments.size()));
 	    }
 	    ints = new int[intSet.size()];
@@ -44,76 +46,54 @@ public class Meta {
 	        ints[i] = iter.next();
 	    }
 	}
-	public assigned_costs set_candidate() {
-		Random rn=new Random();
+
+	
+	public void set_candidate() {
+		//Random rn=new Random();
 		assigned_costs temp;
-		//int i=rn.nextInt(x.length);
-		//int j=rn.nextInt(x[0].length);
-		for(int k=0;k<ints.length;k++) {
-			change(i)
-		}
-		while(x[i][j]!=0) {
-			i=rn.nextInt(x.length);
-			j=rn.nextInt(x[0].length);
-		}
-		temp=new assigned_costs(c[i][j], i, j);
-		return temp;
+		int temp_obj=objective;
+		int count=0;
+		//implement the iterative process check the assignments if they need to be coppied or not(i don`t think so) 
+		//creat_new_list(new_ass);
+			random_generator();
+			for(int k=0;k<ints.length;k++) {
+				change(ints[k]);
+			}
+		check_Feasi();
+		objective=find_objective_value();
 	}
 	public void change(int k) {//initialize temp_x
+		assigned_costs cs;
 		int j=assignments.get(k).j_val;
 		for(int i=0;i<x.length;i++) {
-			if(temp_x[i][j]==0) {
-				if(check_Feas(i,assignments.get(k).i_val),j) {
-					temp_x[i][j]=1;
-					temp_x[assignments.get(k).i_val][j]=0;
-					changeb()
-				}
+			//System.out.println(b[i]+ " "+ a[i][j]+ " "+ a[assignments.get(k).i_val][j]);
+			if(x[i][j]==0) {
+				if(check_Feas(i,assignments.get(k).i_val,j)){
+					x[i][j]=1;
+					x[assignments.get(k).i_val][j]=0;
+					cs=new assigned_costs(c[i][j], i, j);
+					assignments.set(k,cs);
+					break;
+					}
 			}
 		}
 	}
-	public boolean check_Feas(int n,int m,int j) {
-		int temp_b=b[n]+
-	}
-	public void new_assignment() {
-		assigned_costs swapper=set_candidate();
-		int new_i=swapper.i_val;
-		int new_j=swapper.j_val;
-		int old;
-		int k=0;
-		while(objective-optimal>0.01 && k<10000) {
-			//System.out.println(x[new_i][new_j]);
-		
-			//System.out.println("here");
-			copy(saved_b, b);
-			old=to_be_swapped(new_j);
-			b[old]+=a[old][new_j];
-			b[new_i]=b[new_i]-a[new_i][new_j];
-			if(b[new_i]-a[new_i][new_j]>=0) {
-			copy(saved_x, x);
-			x[new_i][new_j]=1;
-			x[old][new_j]=0;
-			ArrayList<assigned_costs> new_costs=new ArrayList<assigned_costs>();
-			Sort_assigned_costs(new_costs);
-			Random r=new Random();
-			int can=r.nextInt(new_costs.size()/3);
-			check_Feas();
-			Local_Search ls=new Local_Search(a, objective, x, c, b, new_costs, optimal);
-			ls.search();
-			if(ls.objective<=objective) {
-				//System.out.println("here");
-				objective=ls.objective;
-				//copythenew ass
-				copy(assignments, ls.costs_Assigned);
-			}
-			else {
-				copy(x, saved_x);
-				copy(b, saved_b);
-			}
-		}	
-		k++;
+	public boolean check_Feas(int newe ,int old,int j) {
+		int temp_changed=b[old];
+		b[old]=b[old]+a[old][j];
+		//System.out.println(b[m]);
+		//int temp_added=b[n]+a[n][j];
+		if(b[newe]-a[newe][j]>=0) {
+			b[newe]=b[newe]-a[newe][j];
+			//System.err.println("its feasible");
+			return true;
 		}
+		else {
+			b[old]=temp_changed;
+			return false;
+		}
+	}
 	
-	}
 	public int to_be_swapped(int j) {
 		int store=0;
 		int flag=0;
@@ -135,29 +115,22 @@ public class Meta {
 	public int i_(int n) {
 		return assignments.get(n).i_val;
 	}
-	public void Sort_assigned_costs(ArrayList< assigned_costs>new_costs){
-
-		assigned_costs as;
-		for(int i=0;i<x.length;i++) {
-			for(int j=0;j<x[0].length;j++) {
-				if(x[i][j]==1) {
-					as=new assigned_costs(c[i][j], i, j);
-					new_costs.add(as);
-				}
-			}
-		}
-
-		mergeSort(new_costs, 0, new_costs.size()-1);
-	}
-	
 	
 	public void copy(ArrayList<assigned_costs>a, ArrayList<assigned_costs>b) {
 		assigned_costs temp1;
 		//if(a.size()!=b.size()) System.err.println("dangeeerrrrrrrrrrrrrrrrrr");
-		for(int i=0;i<a.size();i++) {
+		for(int i=0;i<b.size();i++) {
 			temp1=new assigned_costs(b.get(i).value, b.get(i).i_val,b.get(i).j_val);
-			a.set(i,temp1);
+			a.add(i,temp1);
 		}
+	}
+
+	public int find_objective_value() {
+		int sum = 0;
+		for (int i = 0; i < assignments.size(); i++) {
+			sum += assignments.get(i).value;
+		}
+		return sum;
 	}
 	public void copy (int[][]x,int y[][]) {
 		for(int i=0;i<x.length;i++) {
@@ -170,8 +143,19 @@ public class Meta {
 	public int value(int n) {
 		return assignments.get(n).value;
 	}
-
-	public void check_Feas() {// this function checks feasibility
+	public void creat_new_list(ArrayList<assigned_costs> l){
+		l=new ArrayList<assigned_costs>();
+		assigned_costs as;
+		for(int i=0;i<x.length;i++) {
+			for(int j=0;j<x[0].length;j++) {
+				if(x[i][j]==1) {
+					as=new assigned_costs(c[i][j], i, j);
+					l.add(as);
+				}
+			}
+		}	
+	}
+	public void check_Feasi() {// this function checks feasibility
 		// System.out.println("feaschecking");
 		int flag = 0;
 		int zer0_flag = 0;
@@ -210,9 +194,11 @@ public class Meta {
 	}
 
 	public void copy(int[] x,int[]y) {
-		for(int i=0;i<x.length;i++)
-			x[i]=y[i];
-	}
+		int temp;
+		for(int i=0;i<x.length;i++) {
+			temp=y[i];
+			x[i]=temp;
+	}}
 
 	void merge(ArrayList<assigned_costs> arr, int l, int m, int r) {
 		int i, j, k;
@@ -280,4 +266,5 @@ public class Meta {
 		}
 	}
 }
+
 	
