@@ -54,16 +54,19 @@ public class Local_Search {
 			int best_shift_oldi=0;
 			int best_index=0;
 			flag=false;
+			delta=0;
+			best_i=0;
+			best_j=0;
 			for(int i=0;i<costs_Assigned.size();i++) {
 				for(int k=0;k<assignments.length;k++) {
 					if(check_shift_feas(k,costs_Assigned.get(i).j_val) && (costs_Assigned.get(i).i_val!=k)) {
 						shift_temp_obj=objective-c[i(i)][j(i)];
 						if(shift_temp_obj+c[k][j(i)]<objective) {
-							if(objective-(shift_temp_obj+c[k][j(i)])<delta){
+							if(objective-(shift_temp_obj+c[k][j(i)])<shift_delta){
 							best_shift_oldi=i(i);
 							best_shift_i=k;
 							best_shift_j=j(i);
-							delta=objective-(shift_temp_obj+c[k][j(i)]);
+							shift_delta=objective-(shift_temp_obj+c[k][j(i)]);
 							best_index=i;
 						}
 							}
@@ -71,21 +74,7 @@ public class Local_Search {
 				}
 			}
 			int temp_obj2=objective;
-			shift(best_shift_oldi,best_shift_i,best_shift_j,best_index);
-			check_Feas();
-			if(temp_obj2-objective>0) flag=true;
-		}
-		
-		
-		
-		
-		///swap
-		flag=true;
-		while (flag == true) {
-			delta=0;
-			best_i=0;
-			best_j=0;
-			flag = false;
+			//best swap
 			for (int i = 0; i < costs_Assigned.size(); i++) {
 				for (int j = i + 1; j < costs_Assigned.size(); j++) {
 					if (check_swap_feas(i, j)) {
@@ -102,14 +91,16 @@ public class Local_Search {
 					}
 				}
 			}
-	
-				int temp_obj1=objective;
+			if(delta>shift_delta) {
 				swap(best_i, best_j);
-			
-				check_Feas();
-				if(temp_obj1-objective>0) flag=true;
-		
+			}
+			else {
+				shift(best_shift_oldi,best_shift_i,best_shift_j,best_index);
+			}			
+			check_Feas();
+			if(temp_obj2-objective>0) flag=true;
 		}
+		
 		System.out.println("the obj without met is: " + objective + "and the opt is " + optimal + " "
 				+ (find_objective_value() - optimal) * 100 / (find_objective_value() * 1.0));
 		

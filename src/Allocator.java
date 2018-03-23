@@ -8,8 +8,8 @@ public class Allocator {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		ReadData rd = new ReadData();
-		rd.readFile("e05100.txt");
-		Nap_Const h1=new Nap_Const(rd,12681);
+		rd.readFile("e10200.txt");
+		Nap_Const h1=new Nap_Const(rd,23307);
 		h1.assign();
 		/*
 		 * for(int i=0;i<rd.num_agents;i++) { for(int j=0;j<rd.num_resources;j++) {
@@ -38,7 +38,9 @@ public class Allocator {
 		int k=0;
 		int[][]best_x=new int[x.length][x[0].length];
 		int[] best_b=new int[b.length];
-		while(k<1000 && best-h1.optimum>= 10) {
+		
+		
+		while(k<1000 && best-h1.optimum>= 0.000001) {
 		Meta m1=new Meta(x, h1.a, h1.c, b, h1.allocated_costs, h1.objective_value, h1.optimum);
 		m1.set_candidate();
 		/*Meta m2=new Meta(x, h1.a, h1.c, b, h1.allocated_costs, h1.objective_value, h1.optimum);
@@ -61,41 +63,23 @@ public class Allocator {
 			copy(best_x,l2.assignments );
 			copy(best_b, l2.b);
 		}
+		System.out.println(k);
+
 		k++;
 		}
-		System.out.println("the best value found is"+ best + "the gap is "+ (best-h1.optimum)*100.0/best);
-/*
-		System.out.println();
-		for(int i=0;i<m1.b.length;i++)
-			System.out.print(m1.b[i] + " ");
-		System.out.println();
-		for(int i=0;i<m2.b.length;i++)
-			System.out.print(m2.b[i] + " ");
-		System.out.println();
-		for(int i=0;i<m3.b.length;i++)
-			System.out.print(m3.b[i] + " ");
-		System.out.println();
-		for(int i=0;i<m4.b.length;i++)
-			System.out.print(m4.b[i] + " ");
-		System.out.println();
-		for(int i=0;i<m5.b.length;i++)
-			System.out.print(m5.b[i] + " ");
-		System.out.println();
-		for(int i=0;i<m5.b.length;i++)
-			System.out.print(m6.b[i] + " ");
-		System.out.println();
-		for(int i=0;i<m5.b.length;i++)
-			System.out.print(m7.b[i] + " ");*/
-		/*
-		 * Random rn1=new Random();//1245 //System.out.println(h.optimum); //Random
-		 * ran=new Random(); int k=0; 
-		 * Meta m=new Meta(l1.assignments, l1.a, l1.c, l1.b,l1.costs_Assigned, l1.objective, l1.optimal); 
-		 * while(m.objective-m.optimal>10
-		 * && k<1000) { //System.err.println("hereeee"); int
-		 * cn=rn1.nextInt(l1.costs_Assigned.size()); m.set_candidate(cn);
-		 * m.new_assignment(); k++; }
-		 */
+		System.out.println(" the best value found is"+ best + "the gap is "+ (best-h1.optimum)*100.0/best);
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	public static void check_x_equality(int[][]x,int[][]y) {
 		int flag=0;
 		for(int i=0;i<x.length;i++ ) {
