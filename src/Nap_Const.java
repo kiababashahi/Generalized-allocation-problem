@@ -248,16 +248,7 @@ public class Nap_Const {
 			}
 		}
 		return sum;
-	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	}	
 	
 	private int[][] copy(int[][] m) {
 		int[][] n = new int[m.length][m[0].length];

@@ -309,7 +309,6 @@ public class Local_Search {
 	}}
 	public void copy(ArrayList<assigned_costs>a, ArrayList<assigned_costs>b) {
 		assigned_costs temp1;
-		//if(a.size()!=b.size()) System.err.println("dangeeerrrrrrrrrrrrrrrrrr");
 		for(int i=0;i<b.size();i++) {
 			temp1=new assigned_costs(b.get(i).value, b.get(i).i_val,b.get(i).j_val);
 			a.add(i,temp1);
